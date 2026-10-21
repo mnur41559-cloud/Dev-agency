@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevAgency | Founder: Nur Mohammad</title>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #030712;
+            color: #f9fafb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Glowing Background Blur */
+        .glow-bg {
+            position: fixed;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 750px;
+            height: 750px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(236, 72, 153, 0.12) 40%, rgba(3, 7, 18, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header / Navbar */
+        header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .custom-logo-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #818cf8;
+            box-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #ffffff;
+            -webkit-text-fill-color: #ffffff;
+        }
+
+        .owner-tag {
+            font-size: 13px;
+            color: #38bdf8;
+            font-weight: 700;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            display: none;
+        }
+
+        /* FIXED HEADER NAV BUTTON STYLING */
+        .nav-btn {
+            background: linear-gradient(135deg, #4f46e5, #9333ea);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        /* BANNER SLIDER STYLING */
+        .banner-container {
+            max-width: 1000px;
+            margin: 20px auto 10px;
+            padding: 0 16px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .slide-img {
+            width: 100%;
+            flex-shrink: 0;
+            max-height: 380px;
+            object-fit: cover;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Slider Controls */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            transition: 0.3s;
+        }
+
+        .slider-btn.left { left: 26px; }
+        .slider-btn.right { right: 26px; }
+
+        .slider-btn:hover {
+            background: #6366f1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 30px 20px 50px;
+            text-align: center;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .dev-badge {
+            background: rgba(129, 140, 248, 0.15);
+            color: #a5b4fc;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(129, 140, 248, 0.4);
+            box-shadow: 0 0 20px rgba(129, 140, 248, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 25px;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* CTA Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 320px;
+            padding: 18px 28px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: #ffffff;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(30, 41, 59, 0.9);
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            border-color: #818cf8;
+            transform: translateY(-4px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: #ffffff;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-whatsapp:hover {
+            background: #20ba5a;
+            transform: translateY(-4px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 950px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .stat-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+        }
+
+        .stat-card h2 {
+            font-size: 38px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card p {
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* Sections */
+        .section {
+            padding: 70px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 50px;
+        }
+
+        /* Card Grids */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .card:hover {
+            border-color: #818cf8;
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-icon {
+            font-size: 36px;
+            color: #818cf8;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 18px;
+        }
+
+        .faq-item h4 {
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .faq-item p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        /* Modal Overlay System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.9);
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 35px 25px;
+            width: 100%;
+            max-width: 520px;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            background: #030712;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #818cf8;
+        }
+
+        /* Notice Boxes */
+        .custom-notice-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.2));
+            border: 1px solid #10b981;
+            color: #34d399;
+            padding: 16px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 20px;
+            display: none;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .error-notice-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.2));
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Order Table */
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .order-table th, .order-table td {
+            border: 1px solid #334155;
+            padding: 12px;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .order-table th {
+            background: #1e293b;
+            color: #818cf8;
+        }
+
+        /* Floating WA */
+        .float-wa {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #25D366;
+            color: #ffffff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45);
+            z-index: 999;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .float-wa:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @media (min-width: 768px) {
+            header { padding: 14px 24px; }
+            .logo { font-size: 24px; }
+            .custom-logo-img { width: 42px; height: 42px; }
+            .nav-btn { padding: 10px 22px; font-size: 15px; }
+            .hero h1 { font-size: 54px; }
+            .btn-group { flex-direction: row; }
+            .grid-3 { grid-template-columns: repeat(3, 1fr); }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .owner-tag { display: inline-block; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-bg"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-container" id="secretLogo" onclick="handleLogoTap()">
+            <img src="https://img.sanishtech.com/u/c034610a58f0b8cf611185b4efa0e8cd.png" alt="DevAgency Logo" class="custom-logo-img">
+            <div class="logo">Dev<span>Agency</span></div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="owner-tag"><i class="fa-solid fa-code"></i> Lead Dev: Nur Mohammad</span>
+            <a href="javascript:void(0)" onclick="openOrderModal()" class="nav-btn"><i class="fa-solid fa-paper-plane"></i> অর্ডার করুন</a>
+        </div>
+    </header>
+
+    <!-- 4 PREMIUM BANNER AUTOMATIC SLIDER -->
+    <div class="banner-container reveal">
+        <button class="slider-btn left" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="slider-btn right" onclick="moveSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+
+        <div class="slider-wrapper" id="sliderWrapper">
+            <img src="https://img.sanishtech.com/u/c034610a58f0b8cf611185b4efa0e8cd.png" alt="DevAgency Banner 1" class="slide-img">
+            <img src="https://img.sanishtech.com/u/bc7359af34c47d3d8da320775209825d.png" alt="DevAgency Banner 2" class="slide-img">
+            <img src="https://img.sanishtech.com/u/1ace7fe278eee6e6d3ac61c8f3c8300b.png" alt="DevAgency Banner 3" class="slide-img">
+            <img src="https://img.sanishtech.com/u/e7dde42e92a9c1c376e2ab1ae8bc502b.png" alt="DevAgency Banner 4" class="slide-img">
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero reveal">
+        <div class="dev-badge">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i> Lead Developer: Nur Mohammad
+        </div>
+        
+        <h1>কম খরচে ও সুপার ফাস্ট সময়ে <br> <span class="gradient-text">আপনার স্বপ্নের ওয়েবসাইট বানিয়ে নিন</span></h1>
+        
+        <p>আমরা অতি দ্রুত ও বাজেট-ফ্রেন্ডলি খরচে আধুনিক রেসপন্সিভ ওয়েবসাইট তৈরি করি। নূর মোহাম্মদ ভাইয়ের তত্ত্বাবধানে সেরা কোয়ালিটির নিশ্চয়তা!</p>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="openOrderModal()">
+                <i class="fa-solid fa-cart-shopping"></i> এখনই অর্ডার করুন
+            </button>
+
+            <a href="#services" class="btn btn-secondary">
+                <i class="fa-solid fa-layer-group"></i> সার্ভিসসমূহ
+            </a>
+
+            <a href="https://wa.me/8801566076407" target="_blank" class="btn btn-whatsapp">
+                <i class="fa-brands fa-whatsapp text-xl"></i> হোয়াটসঅ্যাপ মেসেজ
+            </a>
+        </div>
+    </section>
+
+    <!-- Live Stats Grid -->
+    <div class="stats-grid reveal">
+        <div class="stat-card">
+            <h2>১৫০+</h2>
+            <p>সম্পন্ন প্রজেক্ট</p>
+        </div>
+        <div class="stat-card">
+            <h2>৯৯%</h2>
+            <p>সন্তুষ্ট ক্লায়েন্ট</p>
+        </div>
+        <div class="stat-card">
+            <h2>২৪h</h2>
+            <p>দ্রুততম ডেলিভারি</p>
+        </div>
+        <div class="stat-card">
+            <h2>২৪/৭</h2>
+            <p>টেক সাপোর্ট</p>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="section reveal" id="services">
+        <h2 class="section-title">আমাদের বিশেষ <span class="gradient-text">সার্ভিসসমূহ</span></h2>
+        <p class="section-desc">আপনার ব্যবসার সব ডিজিটাল প্রয়োজন সমাধান করছি এক জায়গায়</p>
+
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                <h3>কাস্টম ওয়েব ডেভেলপমেন্ট</h3>
+                <p>React, Next.js বা HTML দিয়ে রেসপন্সিভ ও সুপার ফাস্ট ওয়েবসাইট।</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-cart-flatbed"></i></div>
+                <h3>ই-কমার্স ওয়েবসাইট</h3>
+                <p>পেমেন্ট গেটওয়ে, অর্ডার ম্যানেজমেন্ট ও অ্যাডমিন প্যানেলসহ ফুল অনলাইন শপ।</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>বাগ ফিক্সিং ও সিকিউরিটি</h3>
+                <p>ওয়েবসাইটের যেকোনো সমস্যা ফিক্স ও স্পিড অপটিমাইজেশন সার্ভিস।</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Reviews Section -->
+    <section class="section reveal">
+        <h2 class="section-title">ক্লায়েন্টদের <span class="gradient-text">মতামত</span></h2>
+        <p class="section-desc">আমাদের কাজের ব্যাপারে আমাদের ক্লায়েন্টরা যা বলছেন</p>
+
+        <div class="grid-3">
+            <div class="card">
+                <p style="color:#d1d5db; font-style:italic; margin-bottom:15px;">"নূর মোহাম্মদ ভাই মাত্র ২ দিনে পুরো ই-কমার্স সাইট কমপ্লিট করে দিয়েছেন! দারুণ সার্ভিস।"</p>
+                <h4 style="color:#818cf8; font-weight:800;">- তানভীর হাসান</h4>
+                <span style="color:#f59e0b; font-size:14px;">⭐⭐⭐⭐⭐</span>
+            </div>
+            <div class="card">
+                <p style="color:#d1d5db; font-style:italic; margin-bottom:15px;">"কম খরচে এত সুন্দর প্রফেশনাল ডিজাইন পাব ভাবিনি। অনেক ধন্যবাদ নূর ভাই!"</p>
+                <h4 style="color:#818cf8; font-weight:800;">- সাব্বির আহমেদ</h4>
+                <span style="color:#f59e0b; font-size:14px;">⭐⭐⭐⭐⭐</span>
+            </div>
+            <div class="card">
+                <p style="color:#d1d5db; font-style:italic; margin-bottom:15px;">"যেকোনো প্রয়োজনে দারুণ সাপোর্ট পাওয়া যায়। ডেলিভারি একদম সুপার ফাস্ট।"</p>
+                <h4 style="color:#818cf8; font-weight:800;">- মো: রফিকুল ইসলাম</h4>
+                <span style="color:#f59e0b; font-size:14px;">⭐⭐⭐⭐⭐</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section reveal">
+        <h2 class="section-title">সাধারণ <span class="gradient-text">প্রশ্নাবলী (FAQ)</span></h2>
+        <p class="section-desc">আপনার মনের কিছু সাধারণ প্রশ্নের উত্তর</p>
+
+        <div style="max-width:850px; margin: 0 auto;">
+            <div class="faq-item">
+                <h4>১. প্রজেক্ট কতদিনের মধ্যে ডেলিভারি দেওয়া হয়?</h4>
+                <p>কাজের ধরন অনুযায়ী ১ থেকে ৩ দিনের মধ্যে সম্পূর্ণ প্রজেক্ট বুঝিয়ে দেওয়া হয়।</p>
+            </div>
+            <div class="faq-item">
+                <h4>২. পেমেন্ট কীভাবে করতে হবে?</h4>
+                <p>কাজ শুরু করার আগে কিছু অ্যাডভান্স এবং কাজ পছন্দ হওয়ার পর বাকি পেমেন্ট নেওয়া হয়।</p>
+            </div>
+            <div class="faq-item">
+                <h4>৩. কাজ শেষে ডেভেলপারের থেকে সাপোর্ট পাব কি?</h4>
+                <p>হ্যাঁ, নূর মোহাম্মদ ভাই ও আমাদের টিম প্রজেক্ট ডেলিভারির পরও সম্পূর্ণ ফ্রিতে মেইনটেনেন্স সাপোর্ট দিয়ে থাকে।</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORDER FORM MODAL -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('orderModal')">&times;</button>
+            <h2 style="color: #fff; text-align: center; font-size: 26px; font-weight: 900; margin-bottom: 6px;">প্রজেক্ট অর্ডার ফর্ম</h2>
+            <p style="color: #94a3b8; text-align: center; font-size: 14px; margin-bottom: 25px;">তথ্যগুলো দিন, সরাসরি অর্ডার কনফার্ম হয়ে যাবে!</p>
+
+            <div id="successNotice" class="custom-notice-box">
+                <i class="fa-solid fa-circle-check"></i> অভিনন্দন! আপনার অর্ডারটি সফলভাবে সাবমিট হয়েছে ও লোকাল সিস্টেমে সেভ হয়েছে।
+            </div>
+
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+                <div class="form-group">
+                    <label>আপনার নাম *</label>
+                    <input type="text" id="custName" placeholder="যেমন: মো: রফিকুল ইসলাম" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>মোবাইল / হোয়াটসঅ্যাপ নম্বর *</label>
+                    <input type="text" id="custPhone" placeholder="01566076407" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>ওয়েবসাইটের বিবরণ বা প্রয়োজনীয়তা *</label>
+                    <textarea id="custDetails" rows="4" placeholder="আপনি কেমন ওয়েবসাইট চান বিস্তারিত লিখুন..." class="form-control" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp" style="width: 100%; max-width: none; font-size: 18px; margin-top: 10px;">
+                    <i class="fa-solid fa-paper-plane"></i> অর্ডার সাবমিট করুন
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CUSTOM ADMIN PASSWORD MODAL -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-card" style="max-width: 420px; text-align: center;">
+            <button class="close-btn" onclick="closeModal('passwordModal')">&times;</button>
+            <h2 style="color: #818cf8; font-size: 22px; font-weight: 900; margin-bottom: 8px;">🔐 Secret Admin Login</h2>
+            <p style="color: #94a3b8; font-size: 13px; margin-bottom: 20px;">নূর মোহাম্মদ ভাই, অ্যাডমিন পাসওয়ার্ড লিখুন:</p>
+
+            <div id="passErrorNotice" class="error-notice-box">
+                ❌ ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।
+            </div>
+
+            <form onsubmit="handlePasswordSubmit(event)">
+                <div class="form-group">
+                    <input type="password" id="adminPassInput" placeholder="Passcode লিখুন" class="form-control" style="text-align: center; letter-spacing: 2px;" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; max-width: none;">
+                    আনলক করুন
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CUSTOM CONFIRMATION DELETE MODAL -->
+    <div class="modal-overlay" id="confirmDeleteModal">
+        <div class="modal-card" style="max-width: 450px; text-align: center;">
+            <button class="close-btn" onclick="closeModal('confirmDeleteModal')">&times;</button>
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 45px; color: #ef4444; margin-bottom: 15px;"></i>
+            <h2 style="color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 10px;">অর্ডার মুছে ফেলার নিশ্চয়তা</h2>
+            <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">আপনি কি নিশ্চিত যে সমস্ত অর্ডারের বিবরণ মুছে ফেলতে চান?</p>
+
+            <div style="display: flex; gap: 12px;">
+                <button onclick="executeClearOrders()" class="btn btn-danger" style="flex: 1;">হ্যাঁ, মুছে ফেলুন</button>
+                <button onclick="closeModal('confirmDeleteModal')" class="btn btn-secondary" style="flex: 1;">বাতিল করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECRET ADMIN DASHBOARD MODAL -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-card" style="max-width: 700px;">
+            <button class="close-btn" onclick="closeModal('adminModal')">&times;</button>
+            <h2 style="color: #818cf8; text-align: center; font-size: 24px; font-weight: 900; margin-bottom: 10px;">🔐 Admin Panel (Nur Mohammad)</h2>
+            <p style="color: #94a3b8; text-align: center; font-size: 13px; margin-bottom: 20px;">ওয়েবসাইটে সাবমিট হওয়া অর্ডারের ইতিহাস:</p>
+
+            <div style="overflow-x: auto;">
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>তারিখ</th>
+                            <th>নাম</th>
+                            <th>ফোন/WA</th>
+                            <th>বিবরণ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminOrderTableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="openModal('confirmDeleteModal')" style="width:100%; margin-top:20px; font-size:14px; padding:12px;">
+                🗑️ সমস্ত অর্ডার হিস্ট্রি মুছে ফেলুন
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Icon -->
+    <a href="https://wa.me/8801566076407" target="_blank" class="float-wa">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <p>© 2026 DevAgency | Developed & Managed by Nur Mohammad.</p>
+    </footer>
+
+    <!-- JavaScript For Slider, Modals & Logic -->
+    <script>
+        // Banner Slider Logic
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const sliderWrapper = document.getElementById('sliderWrapper');
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Auto slide every 4 seconds
+        setInterval(() => {
+            moveSlide(1);
+        }, 4000);
+
+        // Scroll Reveal
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 120;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function openOrderModal() {
+            document.getElementById('successNotice').style.display = 'none';
+            document.getElementById('orderForm').style.display = 'block';
+            openModal('orderModal');
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const details = document.getElementById('custDetails').value;
+            const date = new Date().toLocaleDateString('bn-BD');
+
+            const newOrder = { name, phone, details, date };
+
+            let orders = JSON.parse(localStorage.getItem('devagency_orders')) || [];
+            orders.unshift(newOrder);
+            localStorage.setItem('devagency_orders', JSON.stringify(orders));
+
+            document.getElementById('successNotice').style.display = 'block';
+            document.getElementById('orderForm').reset();
+
+            // Direct WhatsApp redirect after submit
+            const message = `Hello Nur Mohammad Bhai! 👋%0A*নতুন প্রজেক্ট অর্ডার:*%0A👤 *নাম:* ${encodeURIComponent(name)}%0A📞 *ফোন:* ${encodeURIComponent(phone)}%0A📝 *বিবরণ:* ${encodeURIComponent(details)}`;
+            
+            setTimeout(() => {
+                window.open(`https://wa.me/8801566076407?text=${message}`, '_blank');
+                closeModal('orderModal');
+            }, 1800);
+        }
+
+        let logoTapCount = 0;
+        let tapTimer = null;
+
+        function handleLogoTap() {
+            logoTapCount++;
+            clearTimeout(tapTimer);
+
+            tapTimer = setTimeout(() => {
+                logoTapCount = 0;
+            }, 4000);
+
+            if (logoTapCount === 15) {
+                logoTapCount = 0;
+                document.getElementById('passErrorNotice').style.display = 'none';
+                document.getElementById('adminPassInput').value = '';
+                openModal('passwordModal');
+            }
+        }
+
+        function handlePasswordSubmit(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === "0987654321") {
+                closeModal('passwordModal');
+                openAdminPanel();
+            } else {
+                document.getElementById('passErrorNotice').style.display = 'block';
+            }
+        }
+
+        function openAdminPanel() {
+            const tbody = document.getElementById('adminOrderTableBody');
+            tbody.innerHTML = '';
+
+            let orders = JSON.parse(localStorage.getItem('devagency_orders')) || [];
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#94a3b8;">কোনো অর্ডার পাওয়া যায়নি।</td></tr>';
+            } else {
+                orders.forEach(order => {
+                    const row = `<tr>
+                        <td>${order.date}</td>
+                        <td style="color:#818cf8; font-weight:bold;">${order.name}</td>
+                        <td>${order.phone}</td>
+                        <td>${order.details}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            }
+
+            openModal('adminModal');
+        }
+
+        function executeClearOrders() {
+            localStorage.removeItem('devagency_orders');
+            closeModal('confirmDeleteModal');
+            openAdminPanel();
+        }
+    </script>
+</body>
+      </html>
